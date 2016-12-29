@@ -1,0 +1,111 @@
+<openerp>
+    <data>
+
+<!--  ****** Consultas ******** -->
+
+      <record model="ir.ui.view" id="consultas_form_view">
+        <field name="name">consultas.form</field>
+        <field name="model">consultas.consultas</field>
+        <field name="arch" type="xml">
+          <form string="Course Form">
+            <sheet>
+              <group>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="observaciones"/>
+              </group>
+            </sheet>
+          </form>
+        </field>
+      </record>
+
+      <record model="ir.ui.view" id="consultas_tree_view">
+          <field name="name">consultas.tree</field>
+          <field name="model">consultas.consultas</field>
+          <field name="arch" type="xml">
+              <tree string="Consultas Tree">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="observaciones"/>
+              </tree>
+          </field>
+      </record>
+
+      <record model="ir.actions.act_window" id="nuevo_paciente">
+        <field name="name">Consultas</field>
+        <field name="res_model">consultas.consultas</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">Nueva consulta
+          </p>
+        </field>
+      </record>
+
+<!--  ****** Citas ******** -->
+
+      <record model="ir.ui.view" id="citas_form_view">
+        <field name="name">citas.form</field>
+        <field name="model">consultas.citas</field>
+        <field name="arch" type="xml">
+          <form string="Citas Form">
+            <sheet>
+              <group>
+                <field name="date"/>
+                <field name="citas_id"/>
+              </group>
+            </sheet>
+          </form>
+        </field>
+      </record>
+
+
+      <record model="ir.ui.view" id="citas_tree_view">
+          <field name="name">citas.tree</field>
+          <field name="model">consultas.citas</field>
+          <field name="arch" type="xml">
+              <tree string="Citas Tree">
+                  <field name="date"/>
+                  <field name="citas_id"/>
+              </tree>
+          </field>
+      </record>
+
+      <record model="ir.actions.act_window" id="citas_new">
+        <field name="name">Citas</field>
+        <field name="res_model">consultas.citas</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">Nueva cita
+          </p>
+        </field>
+      </record>
+
+      <record model="ir.ui.view" id="citas_search_view">
+          <field name="name">citas.search</field>
+          <field name="model">consultas.citas</field>
+          <field name="arch" type="xml">
+              <search>
+                  <field name="citas_id"/>
+              </search>
+          </field>
+      </record>
+
+
+
+
+      <menuitem id="main_consultas_menu" name="Consultas"/>
+
+      <menuitem id="consultas_menu" name="Consultas"
+                parent="main_consultas_menu"/>
+
+      <menuitem id="pacientes" name="Pacientes" parent="consultas_menu"
+                action="nuevo_paciente"/>
+
+      <menuitem id="citas" name="Citas" parent="consultas_menu"
+                action="citas_new"/>
+
+
+    </data>
+</openerp>
