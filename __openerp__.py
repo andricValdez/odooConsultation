@@ -6,7 +6,7 @@
         Andric Valdez""",
 
     'description': """
-        Consultas para pacientes 
+        Consultas para pacientes
     """,
 
     'author': "Your Company",
@@ -25,6 +25,8 @@
     'data': [
         # 'security/ir.model.access.csv',
         'templates.xml',
+        'reports/reports_view.xml',
+        'reports/config_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

@@ -1,0 +1,14 @@
+<openerp>
+    <data>
+        <report
+            id="config_view"
+            model="consultas.citas"
+            string="report"
+            report_type="qweb-pdf"
+            name="consultas.reports_template"
+            file="consultas.reports_template"
+            attachment_use="True"
+            attachment="'hola.pdf'"
+        />
+    </data>
+</openerp>

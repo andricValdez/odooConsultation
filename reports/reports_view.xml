@@ -1,0 +1,18 @@
+<openerp>
+    <data>
+      <template id="reports_template">
+          <t t-call="report.html_container">
+              <t t-foreach="docs" t-as="o">
+                <t t-call="report.external_layout">
+                  <div class="page">
+                    <h2>Paciente: <span t-field="o.citas_id"/></h2>
+                    <h4>Fecha de cita: <span t-field="o.date"/></h4>
+                    <p>Observaciones:</p>
+                    <p><span t-field="o.observaciones"/></p>
+                  </div>
+                </t>
+              </t>
+          </t>
+      </template>
+    </data>
+</openerp>

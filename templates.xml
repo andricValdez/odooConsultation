@@ -8,6 +8,9 @@
         <field name="model">consultas.consultas</field>
         <field name="arch" type="xml">
           <form string="Course Form">
+            <header>
+              <button string="Crear cita" type="object" name="crear_cita"/>
+            </header>
             <sheet>
               <group>
                 <field name="name"/>
@@ -49,9 +52,13 @@
         <field name="model">consultas.citas</field>
         <field name="arch" type="xml">
           <form string="Citas Form">
+            <header>
+              <button string="Generar Reporte" type="object" name="generar_reporte"/>
+            </header>
             <sheet>
               <group>
                 <field name="date"/>
+                <field name="observaciones"/>
                 <field name="citas_id"/>
               </group>
             </sheet>
@@ -93,7 +100,7 @@
       </record>
 
 
-
+<!-- *********** Menú ********** --> 
 
       <menuitem id="main_consultas_menu" name="Consultas"/>
 
@@ -105,7 +112,6 @@
 
       <menuitem id="citas" name="Citas" parent="consultas_menu"
                 action="citas_new"/>
-
 
     </data>
 </openerp>
