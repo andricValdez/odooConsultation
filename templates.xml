@@ -99,19 +99,61 @@
           </field>
       </record>
 
+<!--  ****** Reportes ******** -->
 
-<!-- *********** Menú ********** --> 
+    <record model="ir.ui.view" id="reportes_form_view">
+    <field name="name">reportes.form</field>
+    <field name="model">consultas.reportes</field>
+    <field name="arch" type="xml">
+      <form string="Reportes Form">
+        <header>
+          <button string="Test" type="object" name="generar_reporte_prueba"/>
+        </header>
+        <sheet>
+          <group>
+            <field name="begin_date"/>
+            <field name="end_date"/>
+            <field name="paciente_id_reportes"/>
+            <field name="tags"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+    </record>
 
-      <menuitem id="main_consultas_menu" name="Consultas"/>
+    <record model="ir.actions.act_window" id="reportes_new">
+    <field name="name">Reportes</field>
+    <field name="res_model">consultas.reportes</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+      <p class="oe_view_nocontent_create">Nuevo Reporte
+      </p>
+    </field>
+    </record>
 
-      <menuitem id="consultas_menu" name="Consultas"
-                parent="main_consultas_menu"/>
+<!-- *********** Menú ********** -->
 
-      <menuitem id="pacientes" name="Pacientes" parent="consultas_menu"
-                action="nuevo_paciente"/>
+    <menuitem id="main_consultas_menu" name="Consultas"/>
 
-      <menuitem id="citas" name="Citas" parent="consultas_menu"
-                action="citas_new"/>
+    <menuitem id="consultas_menu"
+              name="Consultas"
+              parent="main_consultas_menu"/>
+
+    <menuitem id="pacientes"
+              name="Pacientes"
+              parent="consultas_menu"
+              action="nuevo_paciente"/>
+
+    <menuitem id="citas"
+              name="Citas"
+              parent="consultas_menu"
+              action="citas_new"/>
+
+    <menuitem id="reportes"
+              name="Reportes"
+              parent="consultas_menu"
+              action="reportes_new"/>
 
     </data>
 </openerp>

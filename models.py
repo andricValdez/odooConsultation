@@ -3,6 +3,10 @@
 from openerp import models, fields, api
 from datetime import date, datetime
 
+# ***********************************************************************
+#                         Submodulo CONSULTAS
+# ***********************************************************************
+
 class consultas(models.Model):
     _name = 'consultas.consultas'
     todayDate = datetime.today()
@@ -29,7 +33,7 @@ class consultas(models.Model):
         cr = self.env.cr #
         uid = self.env.uid #id de usuario
         att_obj = self.pool.get('consultas.citas') #Tomar datos de otro módulo
-        identifier = self.id 
+        identifier = self.id
         att_id = att_obj.create(cr,uid,{
             'date': self.todayDate,
             'citas_id': identifier
@@ -39,12 +43,13 @@ class consultas(models.Model):
 
 
 # ***********************************************************************
+#                         Submodulo CITAS
+# ***********************************************************************
 
 class citas(models.Model):
     _name = 'consultas.citas'
     date = fields.Date(string="Fecha de la cita", required=True)
     observaciones = fields.Text();
-
     citas_id = fields.Many2one('consultas.consultas',
         ondelete='cascade', string="Paciente", required=True)
 
@@ -53,29 +58,20 @@ class citas(models.Model):
         self.ensure_one()
         identifier = self.id
         return self.env['report'].get_action(self, "consultas.reports_template")
-        #
-        # report_obj = self.env['report']
-        # report = report_obj._get_report_from_name('consultas.reports_template')
-        # docargs = {
-        #     'doc_ids': self._ids,
-        #     'doc_model': report.model,
-        #     'docs': self,
-        # }
-        # return report_obj.render('consultas.reports_template', docargs)
 
 
 # ***********************************************************************
+#                         Submodulo REPORTES
+# ***********************************************************************
 
-#
-# class ParticularReport(models.AbstractModel):
-#     _name = 'report.consultas.report_template'
-#     @api.multi
-#     def render_html(self, data=None):
-#         report_obj = self.env['report']
-#         report = report_obj._get_report_from_name('consultas.report_template')
-#         docargs = {
-#             'doc_ids': self._ids,
-#             'doc_model': report.model,
-#             'docs': self,
-#         }
-#         return report_obj.render('consultas.report_template', docargs)
+class reportes(models.Model):
+    _name = 'consultas.reportes'
+    begin_date = fields.Date(string="Fecha inicio", required=True)
+    end_date = fields.Date(string="Fecha fin", required=True)
+    paciente_id_reportes = fields.Many2one('consultas.consultas',
+        ondelete='cascade', string="Paciente")
+    tags = fields.Text();
+
+    @api.multi
+    def generar_reporte_prueba(self, data=None, context=None):
+        self.env.cr.execute("some_sql", param1, param2, param3)
