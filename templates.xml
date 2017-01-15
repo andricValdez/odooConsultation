@@ -107,13 +107,13 @@
     <field name="arch" type="xml">
       <form string="Reportes Form">
         <header>
-          <button string="Test" type="object" name="generar_reporte_prueba"/>
+          <button string="Generar reporte" type="object" name="generar_reporte_prueba"/>
         </header>
         <sheet>
           <group>
             <field name="begin_date"/>
             <field name="end_date"/>
-            <field name="paciente_id_reportes"/>
+            <field name="paciente"/>
             <field name="tags"/>
           </group>
         </sheet>
@@ -131,6 +131,20 @@
       </p>
     </field>
     </record>
+
+    <record model="ir.ui.view" id="reportes_tree_view">
+        <field name="name">reportes.tree</field>
+        <field name="model">consultas.reportes</field>
+        <field name="arch" type="xml">
+            <tree string="Reportes Tree">
+                <field name="begin_date"/>
+                <field name="end_date"/>
+                <field name="paciente"/>
+                <field name="tags"/>
+            </tree>
+        </field>
+    </record>
+
 
 <!-- *********** Menú ********** -->
 

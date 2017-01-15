@@ -2,16 +2,41 @@
     <data>
       <template id="reports_template">
           <t t-call="report.html_container">
-              <t t-foreach="docs" t-as="o">
-                <t t-call="report.external_layout">
-                  <div class="page">
-                    <h2>Paciente: <span t-field="o.citas_id"/></h2>
-                    <h4>Fecha de cita: <span t-field="o.date"/></h4>
-                    <p>Observaciones:</p>
-                    <p><span t-field="o.observaciones"/></p>
+            <t t-foreach="docs" t-as="o">
+              <t t-call="report.external_layout">
+                <div class="page">
+                  <h4><b>Reporte desde </b><span t-field="o.begin_date"/><b> hasta </b><span t-field="o.end_date"/> </h4>
+                  <h4><b>Paciente: </b><span t-field="o.paciente"/></h4>
+                  <h4><b>Etiquetas: </b><span t-field="o.tags"/></h4>
+                  <br/>
+                  <div class="row">
+                    <div class="col-xs-4">
+                      <h4><b>Num</b></h4>
+                      <hr/>
+                      <t t-set="numPaciente" t-value="1"/>
+                      <t t-foreach="o.citas_ids" t-as="i">
+                        <p><t t-esc="numPaciente"/></p>
+                        <t t-set="numPaciente" t-value="numPaciente + 1"/>
+                      </t>
+                    </div>
+                    <div class="col-xs-4">
+                      <h4><b>Nombre</b></h4>
+                      <hr/>
+                      <t t-foreach="o.citas_ids" t-as="i">
+                        <p><t t-esc="i.citas_id.name"/></p>
+                      </t>
+                    </div>
+                    <div class="col-xs-4">
+                      <h4><b>Fecha de cita</b></h4>
+                      <hr/>
+                      <t t-foreach="o.citas_ids" t-as="i">
+                        <p><t t-esc="i.date"/></p>
+                      </t>
+                    </div>
                   </div>
-                </t>
+                </div>
               </t>
+            </t>
           </t>
       </template>
     </data>

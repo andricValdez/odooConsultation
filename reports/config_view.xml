@@ -2,7 +2,7 @@
     <data>
         <report
             id="config_view"
-            model="consultas.citas"
+            model="consultas.reportes"
             string="report"
             report_type="qweb-pdf"
             name="consultas.reports_template"
