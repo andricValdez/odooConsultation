@@ -16,6 +16,7 @@
                 <field name="name"/>
                 <field name="date"/>
                 <field name="observaciones"/>
+                <field name="dateTest"/>
               </group>
             </sheet>
           </form>

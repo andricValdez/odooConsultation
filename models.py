@@ -2,6 +2,8 @@
 
 from openerp import models, fields, api
 from datetime import date, datetime
+from openerp.exceptions import Warning
+from openerp import _
 
 # ***********************************************************************
 #                         Submodulo CONSULTAS
@@ -14,9 +16,7 @@ class consultas(models.Model):
     name = fields.Char(string="Nombre", required=True)
     date = fields.Date(string="Fecha de Nacimiento", required=True)
     observaciones = fields.Text()
-
-    # citas_id = fields.Many2one('consultas.citas',
-    #     ondelete='cascade', string="Hacer cita", required=True)
+    dateTest = fields.Date(string="Fecha Test", required=True)
 
     _defaults = {
         'date': fields.Date.today(),
@@ -24,8 +24,32 @@ class consultas(models.Model):
 
     @api.onchange('name', 'date') #Decorador
     def _onchange_observaciones(self):
-        #print "hello"
-        self.observaciones = str(self.name) + ' fue creado el ' + str(self.date)
+        self.observaciones = str(self.name) + ' fue creado en ' + str(self.date)
+
+    @api.onchange('dateTest') #Decorador
+    def _onchange_dateTest(self):
+        is_on_holiday = False
+        # Días festivos:
+        holidaysMEX = [(datetime(2017, 1, 1), "Anio Nuevo [New Year's Day]"), \
+        			   (datetime(2017, 2, 6), 'Dia de la Constitucion'), \
+        			   (datetime(2017, 3, 20), "Natalicio de Benito Juarez"), \
+        			   (datetime(2017, 5, 1), 'Dia del Trabajo'), \
+        			   (datetime(2017, 11, 20), 'Dia de la Revolucion'), \
+        			   (datetime(2017, 12, 25), 'Navidad')]
+
+        if self.dateTest != False:
+            current_date = self.dateTest.split('-')
+            is_on_week = datetime(int(current_date[0]), int(current_date[1]), int(current_date[2]))
+            for date, name in holidaysMEX:
+                if date == is_on_week:
+                    is_on_holiday = True
+
+            # .isoweekday = Return the day of the week as an integer, where Monday is 1 and Sunday is 7
+            is_on_week = is_on_week.isoweekday() in range(1, 6)
+
+            if (not is_on_week) or is_on_holiday:
+                raise Warning(_('No puede seleccionar días festivos o fines de semana'))
+
 
 
     @api.multi
@@ -52,8 +76,6 @@ class citas(models.Model):
     observaciones = fields.Text();
     citas_id = fields.Many2one('consultas.consultas',
         ondelete='cascade', string="Paciente", required=True)
-    # reportes_id = fields.Many2one('consultas.reportes',
-    #     ondelete='cascade', string="Reportes")
 
     # reportes_ids = fields.Many2many('consultas.reportes')
 
@@ -87,8 +109,6 @@ class reportes(models.Model):
 
         if ((self.paciente.id == False) and (self.tags == False)):
             print("Filer 1:")
-            # self.env.cr.execute("SELECT * FROM consultas_citas WHERE date="+str(self.begin_date))
-            # queryFilter = self.env["consultas.citas"].search_read([],['citas_id'])
             queryFilter = self.env["consultas.citas"].search([('date', '>=', self.begin_date), ('date', '<=', self.end_date)])
             self.env.cr.fetchall()
 
@@ -96,7 +116,7 @@ class reportes(models.Model):
 
         elif ((self.paciente.id == False) and (self.tags != False)):
             print("Filer 2:")
-            queryFilter = self.env["consultas.citas"].search([('date', '>=', self.begin_date), ('date', '<=', self.end_date), ('observaciones', '=ilike', self.tags)])
+            queryFilter = self.env["consultas.citas"].search([('date', '>=', self.begin_date), ('date', '<=', self.end_date), ('observaciones', 'like', self.tags)])
             self.env.cr.fetchall()
 
         #******************************* 3)
@@ -110,7 +130,7 @@ class reportes(models.Model):
 
         else:
             print("Filer 4:")
-            queryFilter = self.env["consultas.citas"].search([('date', '>=', self.begin_date), ('date', '<=', self.end_date), ('observaciones', '=ilike', self.tags), ('citas_id', '=', self.paciente.id)])
+            queryFilter = self.env["consultas.citas"].search([('date', '>=', self.begin_date), ('date', '<=', self.end_date), ('observaciones', 'like', self.tags), ('citas_id', '=', self.paciente.id)])
             self.env.cr.fetchall()
 
         idsArray = []
